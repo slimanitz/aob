@@ -48,7 +48,7 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
   const f32 softening = 1e-20;
 
   omp_set_num_threads(THREAD_NUM);
-  #pragma omp parallel for
+  #pragma omp parallel for schedule(dynamic,8)
   for (u64 i = 0; i < n; i++)
       {
         
@@ -58,14 +58,93 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
         f32 fz = 0.0;
 
         //23 floating-point operations 
-        for (u64 j = 0; j < n; j++)
+        for (u64 j = 0; j < n; j+=8)
           {
             //Newton's law
-            const f32 dx = p[j].x - p[i].x; //1 (sub)
-            const f32 dy = p[j].y - p[i].y; //2 (sub)
-            const f32 dz = p[j].z - p[i].z; //3 (sub)
-            const f32 d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            const f32 d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            f32 dx = p[j].x - p[i].x; //1 (sub)
+            f32 dy = p[j].y - p[i].y; //2 (sub)
+            f32 dz = p[j].z - p[i].z; //3 (sub)
+            f32 d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            f32 d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+
+            //Net force
+            fx += dx / d_3_over_2; //13 (add, div)
+            fy += dy / d_3_over_2; //15 (add, div)
+            fz += dz / d_3_over_2; //17 (add, div)
+
+            dx = p[j+1].x - p[i].x; //1 (sub)
+            dy = p[j+1].y - p[i].y; //2 (sub)
+            dz = p[j+1].z - p[i].z; //3 (sub)
+            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+
+            //Net force
+            fx += dx / d_3_over_2; //13 (add, div)
+            fy += dy / d_3_over_2; //15 (add, div)
+            fz += dz / d_3_over_2; //17 (add, div)
+
+            dx = p[j+2].x - p[i].x; //1 (sub)
+            dy = p[j+2].y - p[i].y; //2 (sub)
+            dz = p[j+2].z - p[i].z; //3 (sub)
+            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+
+            //Net force
+            fx += dx / d_3_over_2; //13 (add, div)
+            fy += dy / d_3_over_2; //15 (add, div)
+            fz += dz / d_3_over_2; //17 (add, div)
+
+            dx = p[j+3].x - p[i].x; //1 (sub)
+            dy = p[j+3].y - p[i].y; //2 (sub)
+            dz = p[j+3].z - p[i].z; //3 (sub)
+            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+
+            //Net force
+            fx += dx / d_3_over_2; //13 (add, div)
+            fy += dy / d_3_over_2; //15 (add, div)
+            fz += dz / d_3_over_2; //17 (add, div)
+
+            dx = p[j+4].x - p[i].x; //1 (sub)
+            dy = p[j+4].y - p[i].y; //2 (sub)
+            dz = p[j+4].z - p[i].z; //3 (sub)
+            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+
+            //Net force
+            fx += dx / d_3_over_2; //13 (add, div)
+            fy += dy / d_3_over_2; //15 (add, div)
+            fz += dz / d_3_over_2; //17 (add, div)
+
+            dx = p[j+5].x - p[i].x; //1 (sub)
+            dy = p[j+5].y - p[i].y; //2 (sub)
+            dz = p[j+5].z - p[i].z; //3 (sub)
+            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+
+            //Net force
+            fx += dx / d_3_over_2; //13 (add, div)
+            fy += dy / d_3_over_2; //15 (add, div)
+            fz += dz / d_3_over_2; //17 (add, div)
+
+
+            dx = p[j+6].x - p[i].x; //1 (sub)
+            dy = p[j+6].y - p[i].y; //2 (sub)
+            dz = p[j+6].z - p[i].z; //3 (sub)
+            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+
+            //Net force
+            fx += dx / d_3_over_2; //13 (add, div)
+            fy += dy / d_3_over_2; //15 (add, div)
+            fz += dz / d_3_over_2; //17 (add, div)
+
+
+            dx = p[j+7].x - p[i].x; //1 (sub)
+            dy = p[j+7].y - p[i].y; //2 (sub)
+            dz = p[j+7].z - p[i].z; //3 (sub)
+            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -80,12 +159,46 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
     }
 
   //3 floating-point operations
-  #pragma omp parallel for
-  for (u64 i = 0; i < n; i++)
+  #pragma omp parallel for schedule(dynamic,8)
+  for (u64 i = 0; i < n; i+=8)
     {
+      //1
       p[i].x += dt * p[i].vx;
       p[i].y += dt * p[i].vy;
       p[i].z += dt * p[i].vz;
+      //1
+      p[i+1].x += dt * p[i+1].vx;
+      p[i+1].y += dt * p[i+1].vy;
+      p[i+1].z += dt * p[i+1].vz;
+      //1
+      p[i+2].x += dt * p[i+2].vx;
+      p[i+2].y += dt * p[i+2].vy;
+      p[i+2].z += dt * p[i+2].vz;
+      //1
+      p[i+2].x += dt * p[i+2].vx;
+      p[i+2].y += dt * p[i+2].vy;
+      p[i+2].z += dt * p[i+2].vz;
+      //1
+      p[i+3].x += dt * p[i+3].vx;
+      p[i+3].y += dt * p[i+3].vy;
+      p[i+3].z += dt * p[i+3].vz;
+      //1
+      p[i+4].x += dt * p[i+4].vx;
+      p[i+4].y += dt * p[i+4].vy;
+      p[i+4].z += dt * p[i+4].vz;
+      //1
+      p[i+5].x += dt * p[i+5].vx;
+      p[i+5].y += dt * p[i+5].vy;
+      p[i+5].z += dt * p[i+5].vz;
+      //1
+      p[i+6].x += dt * p[i+6].vx;
+      p[i+6].y += dt * p[i+6].vy;
+      p[i+6].z += dt * p[i+6].vz;
+      //1
+      p[i+7].x += dt * p[i+7].vx;
+      p[i+7].y += dt * p[i+7].vy;
+      p[i+7].z += dt * p[i+7].vz;
+      
     }
 }
 
