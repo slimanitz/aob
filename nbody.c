@@ -19,6 +19,9 @@ typedef struct particle_s {
   
 } particle_t __attribute__((aligned(64)));
 
+
+
+
 //
 void init(particle_t *p, u64 n)
 {
@@ -64,30 +67,36 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             f32 dx = p[j].x - p[i].x; //1 (sub)
             f32 dy = p[j].y - p[i].y; //2 (sub)
             f32 dz = p[j].z - p[i].z; //3 (sub)
-            f32 d_2 =  fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
-            f32 d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+            f32 d_2 =  fma(dx,dx,fma(dy,dy,fma(dz,dz,softening))) ;  //9 (mul, add)
+            f32 sqrt_d2 = sqrt(d_2);
+            f32 d_3_over_2 = sqrt_d2 * sqrt_d2 *sqrt_d2; //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
             fy += dy / d_3_over_2; //15 (add, div)
             fz += dz / d_3_over_2; //17 (add, div)
+
 
             dx = p[j+1].x - p[i].x; //1 (sub)
             dy = p[j+1].y - p[i].y; //2 (sub)
             dz = p[j+1].z - p[i].z; //3 (sub)
-            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
-            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+            d_2 = fma(dx,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
+            sqrt_d2 = sqrt(d_2);
+            d_3_over_2 = sqrt_d2 * sqrt_d2 *sqrt_d2; //11 (pow, div) //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
             fy += dy / d_3_over_2; //15 (add, div)
             fz += dz / d_3_over_2; //17 (add, div)
 
+            //test
+
             dx = p[j+2].x - p[i].x; //1 (sub)
             dy = p[j+2].y - p[i].y; //2 (sub)
             dz = p[j+2].z - p[i].z; //3 (sub)
-            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
-            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+            d_2 = fma(dx,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
+            sqrt_d2 = sqrt(d_2);
+            d_3_over_2 = sqrt_d2 * sqrt_d2 *sqrt_d2; //11 (pow, div) //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -97,8 +106,9 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+3].x - p[i].x; //1 (sub)
             dy = p[j+3].y - p[i].y; //2 (sub)
             dz = p[j+3].z - p[i].z; //3 (sub)
-            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
-            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+            d_2 = fma(dx,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
+            sqrt_d2 = sqrt(d_2);
+            d_3_over_2 = sqrt_d2 * sqrt_d2 *sqrt_d2; //11 (pow, div) //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -108,8 +118,9 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+4].x - p[i].x; //1 (sub)
             dy = p[j+4].y - p[i].y; //2 (sub)
             dz = p[j+4].z - p[i].z; //3 (sub)
-            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
-            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+            d_2 = fma(dx,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
+            sqrt_d2 = sqrt(d_2);
+            d_3_over_2 = sqrt_d2 * sqrt_d2 *sqrt_d2; //11 (pow, div) //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -119,8 +130,9 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+5].x - p[i].x; //1 (sub)
             dy = p[j+5].y - p[i].y; //2 (sub)
             dz = p[j+5].z - p[i].z; //3 (sub)
-            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
-            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+            d_2 = fma(dx,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
+            sqrt_d2 = sqrt(d_2);
+            d_3_over_2 = sqrt_d2 * sqrt_d2 *sqrt_d2; //11 (pow, div) //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -131,8 +143,9 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+6].x - p[i].x; //1 (sub)
             dy = p[j+6].y - p[i].y; //2 (sub)
             dz = p[j+6].z - p[i].z; //3 (sub)
-            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
-            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+            d_2 = fma(dx,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
+            sqrt_d2 = sqrt(d_2);
+            d_3_over_2 = sqrt_d2 * sqrt_d2 *sqrt_d2; //11 (pow, div) //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -143,8 +156,10 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+7].x - p[i].x; //1 (sub)
             dy = p[j+7].y - p[i].y; //2 (sub)
             dz = p[j+7].z - p[i].z; //3 (sub)
-            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
-            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+            d_2 = fma(dx,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
+             sqrt_d2 = sqrt(d_2);
+             d_3_over_2 = sqrt_d2 * sqrt_d2 *sqrt_d2; //11 (pow, div)
+
 
             
 
@@ -158,50 +173,14 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
         p[i].vx += dt * fx; //19 (mul, add)
         p[i].vy += dt * fy; //21 (mul, add)
         p[i].vz += dt * fz; //23 (mul, add)
+
+
+        p[i].x += dt * p[i].vx;
+        p[i].y += dt * p[i].vy;
+        p[i].z += dt * p[i].vz;
+
     }
 
-  //3 floating-point operations
-  #pragma omp parallel for schedule(dynamic,8)
-  for (u64 i = 0; i < n; i+=8)
-    {
-      //1
-      p[i].x += dt * p[i].vx;
-      p[i].y += dt * p[i].vy;
-      p[i].z += dt * p[i].vz;
-      //1
-      p[i+1].x += dt * p[i+1].vx;
-      p[i+1].y += dt * p[i+1].vy;
-      p[i+1].z += dt * p[i+1].vz;
-      //1
-      p[i+2].x += dt * p[i+2].vx;
-      p[i+2].y += dt * p[i+2].vy;
-      p[i+2].z += dt * p[i+2].vz;
-      //1
-      p[i+2].x += dt * p[i+2].vx;
-      p[i+2].y += dt * p[i+2].vy;
-      p[i+2].z += dt * p[i+2].vz;
-      //1
-      p[i+3].x += dt * p[i+3].vx;
-      p[i+3].y += dt * p[i+3].vy;
-      p[i+3].z += dt * p[i+3].vz;
-      //1
-      p[i+4].x += dt * p[i+4].vx;
-      p[i+4].y += dt * p[i+4].vy;
-      p[i+4].z += dt * p[i+4].vz;
-      //1
-      p[i+5].x += dt * p[i+5].vx;
-      p[i+5].y += dt * p[i+5].vy;
-      p[i+5].z += dt * p[i+5].vz;
-      //1
-      p[i+6].x += dt * p[i+6].vx;
-      p[i+6].y += dt * p[i+6].vy;
-      p[i+6].z += dt * p[i+6].vz;
-      //1
-      p[i+7].x += dt * p[i+7].vx;
-      p[i+7].y += dt * p[i+7].vy;
-      p[i+7].z += dt * p[i+7].vz;
-      
-    }
 }
 
 //
@@ -272,7 +251,8 @@ int main(int argc, char **argv)
   printf("\033[1m%s %4s \033[42m%10.1lf +- %.1lf GFLOP/s\033[0m\n",
 	 "Average performance:", "", rate, drate);
   printf("-----------------------------------------------------\n");
-  
+ 
+
   //
   free(p);
 

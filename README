@@ -43,7 +43,7 @@ Comment on gère le fichier code dedans, on doi le rrecrire a la main ou on peut
 Y'a cb de machine accessible depuis le frontale : 
 
 
-//exempler SoA / allouer les tableaux a la main avec malloc pour les avoir les x et y en continue, malloc c'est de la merde don c on va utiliser un aure truc pour maximizer la memeoire contigue
+//exemple`r` SoA / allouer les tableaux a la main avec malloc pour les avoir les x et y en continue, malloc c'est de la merde don c on va utiliser un aure truc pour maximizer la memeoire contigue
 pour comme ça on passe de t[i].x, et on va a t->x[i] et t->y[i]
 
 
