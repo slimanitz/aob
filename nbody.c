@@ -65,7 +65,6 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             f32 dy = p[j].y - p[i].y; //2 (sub)
             f32 dz = p[j].z - p[i].z; //3 (sub)
             f32 d_2 =  fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
-
             f32 d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
@@ -146,6 +145,8 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dz = p[j+7].z - p[i].z; //3 (sub)
             d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
             d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
+
+            
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
