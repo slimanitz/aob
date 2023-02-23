@@ -64,8 +64,9 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             f32 dx = p[j].x - p[i].x; //1 (sub)
             f32 dy = p[j].y - p[i].y; //2 (sub)
             f32 dz = p[j].z - p[i].z; //3 (sub)
-            f32 d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            f32 d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            f32 d_2 =  fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))) ; //9 (mul, add)
+
+            f32 d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -75,8 +76,8 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+1].x - p[i].x; //1 (sub)
             dy = p[j+1].y - p[i].y; //2 (sub)
             dz = p[j+1].z - p[i].z; //3 (sub)
-            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
+            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -86,8 +87,8 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+2].x - p[i].x; //1 (sub)
             dy = p[j+2].y - p[i].y; //2 (sub)
             dz = p[j+2].z - p[i].z; //3 (sub)
-            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
+            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -97,8 +98,8 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+3].x - p[i].x; //1 (sub)
             dy = p[j+3].y - p[i].y; //2 (sub)
             dz = p[j+3].z - p[i].z; //3 (sub)
-            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
+            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -108,8 +109,8 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+4].x - p[i].x; //1 (sub)
             dy = p[j+4].y - p[i].y; //2 (sub)
             dz = p[j+4].z - p[i].z; //3 (sub)
-            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
+            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -119,8 +120,8 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+5].x - p[i].x; //1 (sub)
             dy = p[j+5].y - p[i].y; //2 (sub)
             dz = p[j+5].z - p[i].z; //3 (sub)
-            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
+            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -131,8 +132,8 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+6].x - p[i].x; //1 (sub)
             dy = p[j+6].y - p[i].y; //2 (sub)
             dz = p[j+6].z - p[i].z; //3 (sub)
-            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
+            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
@@ -143,8 +144,8 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
             dx = p[j+7].x - p[i].x; //1 (sub)
             dy = p[j+7].y - p[i].y; //2 (sub)
             dz = p[j+7].z - p[i].z; //3 (sub)
-            d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-            d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+            d_2 = fma(dx ,dx,fma(dy,dy,fma(dz,dz,softening))); //9 (mul, add)
+            d_3_over_2 = d_2 * sqrt(d_2); //11 (pow, div)
 
             //Net force
             fx += dx / d_3_over_2; //13 (add, div)
