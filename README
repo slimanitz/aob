@@ -1,0 +1,111 @@
+read me, tte les infos pour comppiler le code
+
+pour compiler faut faire un maxe
+l'exe c'est ./nbody NB_PARTICLES
+
+premiere etapes c'est le warm up avec des etoiles --> on commence a compter apres le warm up
+
+Time en seconde, nombre d'interaction/s plus on optimiste plus le nombre d'intéraction augmente, pareil pour les GLOP ça augmente 
+
+toital memory size = nb d'octet qu'on va consommer 
+a
+
+
+attention pour la memory size 1GiB = 2^30, alors que GB = 2^9 GiB =/= GB 
+KiB =/= KB
+
+
+perfomance moyenne :
+
+le +/- c'est une erreur
+
+potentiel optimization
+
+Aos vs SoA
+Memory alignement µ
+Removing costly instructions : sqrt, pow, division
+Loop unrolling //reduire le nombre d'itération par loop en faisant plusieurs instructions par itération
+Vectorilization (SSE, AVX or AVX512)
+ Compiler auto-vectorisation
+ OpenMP vectorization direcive
+ Instrinsics
+ Inline assembly
+Parallelization using OpenMP
+Use differents compilers au moins deux, gcc clang
+Add other perf merics : bandwidth GiB/s, elpased time etc...	
+
+Test different compiler optimization levels
+deux questions :
+comment on se connecte de notre terminale jusqu'au frontale ?
+
+Comment on gère le fichier code dedans, on doi le rrecrire a la main ou on peut le recupérer vers notre machine oklm ?
+
+Y'a cb de machine accessible depuis le frontale : 
+
+
+//exempler SoA / allouer les tableaux a la main avec malloc pour les avoir les x et y en continue, malloc c'est de la merde don c on va utiliser un aure truc pour maximizer la memeoire contigue
+pour comme ça on passe de t[i].x, et on va a t->x[i] et t->y[i]
+
+
+piste d'opti :
+
+essayer de faire passer les données via le cache
+
+selon le schéma de WWSiki chips et les EUs et semp, mes parts, la division on la remplace par la multiplications tester deroulage 2/4/8 maxx, et on compare l'impacte des differns types de déroulage
+
+On essaye au compilateur de dérouler les boucles c much easier 
+
+ 
+
+Processor aocc (AOCC) compilateur LLVM pour AMD
+
+
+
+LE CACHE L1 L2 EST PRIV2E
+
+AU TOTAL ON A 23 OPERATIONS FLOTTANTE DANS LA BOUCLE LA PLUS CHJAUDE
+
+
+
+on doit expliquer :
+pourquoi la boucle en dehbors et on doit expliquer le probleme
+//peut etre c pas une bonne idée des fois c'es utilisé
+y'a un malloc stupide qu'on doit corriger
+
+
+
+
+Comment se connecter au cluster :
+
+
+-lscpu
+
+
+emacs pour faire cat 
+
+y'a aussi des module  :
+
+on fait module av,
+
+------------
+-g3 --> debug symbole activation
+
+------------
+yaspr@fob1 :ssh hsw01
+yaspr@hsw01 :w //verifier que y'a pas trop de monde sur la machine + htop pour verifier si c'est dispo
+yaspr@hsw01 :cpu 
+
+
+tendre vers 2,3 TiB/s  c'est vraiment bien
+avec 2.675e07
+
+on prendre le code on dump le code, on recuperer l
+intégrité numérique :
+
+on print la valeur a la fin, au moins une ecriture de donnée ssur le disque 
+
+pour verifier on fait DELTA x < 10^-6 on doit avoir au moins 5 chiffres par seconde 
+
+for i et tu ecxris au format floatant txt dans le fihcier avec un aure fichier,
+
+version originale version optimizer et apres tu fais ta boucle pour acluler l'erreur moyenne , la diff entre tous les points et t'as l'erreur moy

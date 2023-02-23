@@ -9,6 +9,8 @@ typedef float              f32;
 typedef double             f64;
 typedef unsigned long long u64;
 
+#define THREAD_NUM 8
+
 //
 typedef struct particle_s {
 
@@ -22,7 +24,7 @@ void init(particle_t *p, u64 n)
 {
   for (u64 i = 0; i < n; i++)
     {
-      //
+      //omp_set_num_threads(4);
       u64 r1 = (u64)rand();
       u64 r2 = (u64)rand();
       f32 sign = (r1 > r2) ? 1 : -1;
@@ -44,38 +46,42 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
 {
   //
   const f32 softening = 1e-20;
+
+  omp_set_num_threads(THREAD_NUM);
   
-  //
+  #pragma omp parallel for
   for (u64 i = 0; i < n; i++)
-    {
-      //
-      f32 fx = 0.0;
-      f32 fy = 0.0;
-      f32 fz = 0.0;
+      {
+        
+        //
+        f32 fx = 0.0;
+        f32 fy = 0.0;
+        f32 fz = 0.0;
 
-      //23 floating-point operations
-      for (u64 j = 0; j < n; j++)
-	{
-	  //Newton's law
-	  const f32 dx = p[j].x - p[i].x; //1 (sub)
-	  const f32 dy = p[j].y - p[i].y; //2 (sub)
-	  const f32 dz = p[j].z - p[i].z; //3 (sub)
-	  const f32 d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
-	  const f32 d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
+        //23 floating-point operations
+        for (u64 j = 0; j < n; j++)
+          {
+            //Newton's law
+            const f32 dx = p[j].x - p[i].x; //1 (sub)
+            const f32 dy = p[j].y - p[i].y; //2 (sub)
+            const f32 dz = p[j].z - p[i].z; //3 (sub)
+            const f32 d_2 = (dx * dx) + (dy * dy) + (dz * dz) + softening; //9 (mul, add)
+            const f32 d_3_over_2 = pow(d_2, 3.0 / 2.0); //11 (pow, div)
 
-	  //Net force
-	  fx += dx / d_3_over_2; //13 (add, div)
-	  fy += dy / d_3_over_2; //15 (add, div)
-	  fz += dz / d_3_over_2; //17 (add, div)
-	}
+            //Net force
+            fx += dx / d_3_over_2; //13 (add, div)
+            fy += dy / d_3_over_2; //15 (add, div)
+            fz += dz / d_3_over_2; //17 (add, div)
+          }
 
-      //
-      p[i].vx += dt * fx; //19 (mul, add)
-      p[i].vy += dt * fy; //21 (mul, add)
-      p[i].vz += dt * fz; //23 (mul, add)
+        //
+        p[i].vx += dt * fx; //19 (mul, add)
+        p[i].vy += dt * fy; //21 (mul, add)
+        p[i].vz += dt * fz; //23 (mul, add)
     }
 
   //3 floating-point operations
+  #pragma omp parallel for
   for (u64 i = 0; i < n; i++)
     {
       p[i].x += dt * p[i].vx;
