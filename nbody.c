@@ -17,7 +17,7 @@ typedef struct particle_s {
   f32 x, y, z;
   f32 vx, vy, vz;
   
-} particle_t;
+} particle_t __attribute__((aligned(64)));
 
 //
 void init(particle_t *p, u64 n)
@@ -48,7 +48,6 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
   const f32 softening = 1e-20;
 
   omp_set_num_threads(THREAD_NUM);
-  
   #pragma omp parallel for
   for (u64 i = 0; i < n; i++)
       {
@@ -58,7 +57,7 @@ void move_particles(particle_t *p, const f32 dt, u64 n)
         f32 fy = 0.0;
         f32 fz = 0.0;
 
-        //23 floating-point operations
+        //23 floating-point operations 
         for (u64 j = 0; j < n; j++)
           {
             //Newton's law
